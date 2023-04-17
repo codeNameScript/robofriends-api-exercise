@@ -1,4 +1,8 @@
 # I am following a ZTM Udemy course
+
+Exercise: Make an SPA(single page app) with an API of my choice.
+API used for this project: https://genshin.dev/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
