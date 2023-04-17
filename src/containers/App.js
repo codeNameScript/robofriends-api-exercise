@@ -9,16 +9,16 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      robots: [],
+      characters: [],
       searchfield: ''
     }
   }
 
   // change this
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('https://api.genshin.dev/characters')
     .then(response => response.json())
-    .then(users => this.setState({ robots: users }));
+    .then(characterNamesArray => this.setState({ characters: characterNamesArray }));
   }
 
   onSearchChange = (event) => {
@@ -26,11 +26,11 @@ class App extends Component {
   }
 
   render() {
-    const { robots, searchfield } = this.state;
-    const filteredRobots = robots.filter(robot => {
-      return robot.name.toLowerCase().includes(searchfield.toLowerCase());
+    const { characters, searchfield } = this.state;
+    const filteredRobots = characters.filter(robot => {
+      return robot.toLowerCase().includes(searchfield.toLowerCase());
     })
-    return !robots.length ?
+    return !characters.length ?
     <h1>Loading</h1> :
     (
       <div className='tc'>
@@ -38,7 +38,7 @@ class App extends Component {
         <SearchBox searchChange={this.onSearchChange}/>
         <Scroll>
           <ErrorBoundry>
-            <CardList robots={filteredRobots}/>
+            <CardList characters={filteredRobots}/>
           </ErrorBoundry>
         </Scroll>
       </div>
