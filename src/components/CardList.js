@@ -57,9 +57,6 @@ class CardList extends Component {
                                 imgsrc={`https://api.genshin.dev/characters/${characters[i]}/card`}
                             />
                         );
-                        // if (characters.includes(characters[i])) {
-                        //     // you have to return manually if you use {} notation in map dummy
-                        // }
                     })
                 }
             </div>
