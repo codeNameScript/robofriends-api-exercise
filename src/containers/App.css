@@ -12,3 +12,9 @@ h1 {
     font-weight: 200;
     color: #0ccac4;
 }
+
+.Appjs-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

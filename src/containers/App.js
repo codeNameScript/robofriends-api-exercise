@@ -48,13 +48,15 @@ class App extends Component {
         return character;
       }
     })
-    
+
     return !characters.length ?
       <h1>Loading</h1> :
       (
         <div className='tc'>
-          <h1 className='f1'>RoboFriends</h1>
-          <SearchBox searchChange={this.onSearchChange} />
+          <div className='Appjs-flex'>
+            <h1 className='f1'>Genshin Friends</h1>
+            <SearchBox searchChange={this.onSearchChange} />
+          </div>
           <Scroll>
             <ErrorBoundry>
               <CardList characters={filteredCharacters} />
