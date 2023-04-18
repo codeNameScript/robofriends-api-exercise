@@ -17,9 +17,9 @@ class CardList extends Component {
             in the order of the promises passed,
             REGARDLESS of the completion order
         */
-       // this has to be named the same as the prop you passed in App.js
-       const { characters } = this.props;
-       Promise.all(
+        // this has to be named the same as the prop you passed in App.js
+        const { characters } = this.props;
+        Promise.all(
             characters.map(characterName =>
                 fetch(`https://api.genshin.dev/characters/${characterName}`)
                     .then(resp => resp.json())
@@ -31,23 +31,27 @@ class CardList extends Component {
         });
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.characters !== this.props.characters) {
-            this.setState({ characterData: [] });
+    // removing this removes flickering of component
+    // We don't need this  anymore
+    // I don't know why
+    // probably because I fixed the filter in App.js
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.characters !== this.props.characters) {
+    //         this.setState({ characterData: [] });
 
-            const { characters } = this.props;
-            Promise.all(
-                characters.map(characterName =>
-                    fetch(`https://api.genshin.dev/characters/${characterName}`)
-                        .then(resp => resp.json())
-                        .catch(err => console.log('Oh no', err))
-                )
-            ).then(characterDatatmp => {
-                this.setState({ characterData: characterDatatmp });
-                // console.log(this.state.characterData)
-            });
-        }
-    }
+    //         const { characters } = this.props;
+    //         Promise.all(
+    //             characters.map(characterName =>
+    //                 fetch(`https://api.genshin.dev/characters/${characterName}`)
+    //                     .then(resp => resp.json())
+    //                     .catch(err => console.log('Oh no', err))
+    //             )
+    //         ).then(characterDatatmp => {
+    //             this.setState({ characterData: characterDatatmp });
+    //             // console.log(this.state.characterData)
+    //         });
+    //     }
+    // }
 
     render() {
         const { characters } = this.props;

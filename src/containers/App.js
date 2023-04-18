@@ -57,7 +57,7 @@ class App extends Component {
     // I think I have to fetch like in the CardList if I really want to search by full name
 
     // if i filter withd the full names array the cardlist will break
-    
+
     // console.log(charactersFullNames);
     // const filteredCharacters = [];
     // console.log(String(charactersFullNames[0]).toLowerCase());
@@ -68,7 +68,7 @@ class App extends Component {
     // })
 
     const filteredCharacters = characters.filter((character, i) => {
-      // return character.toLowerCase().includes(searchfield.toLowerCase());
+      // You have to parse to string when its from an array dummy
       if (String(charactersFullNames[i]).toLowerCase().includes(searchfield.toLowerCase())) {
         return character;
       }
