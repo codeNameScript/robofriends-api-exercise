@@ -31,27 +31,26 @@ class CardList extends Component {
         });
     }
 
-    // removing this removes flickering of component
-    // We don't need this  anymore
-    // I don't know why
+    // We need this the last commit was a mistake
+    // the flickering has something to do with this part
     // probably because I fixed the filter in App.js
-    // componentDidUpdate(prevProps) {
-    //     if (prevProps.characters !== this.props.characters) {
-    //         this.setState({ characterData: [] });
+    componentDidUpdate(prevProps) {
+        if (prevProps.characters !== this.props.characters) {
+            this.setState({ characterData: [] });
 
-    //         const { characters } = this.props;
-    //         Promise.all(
-    //             characters.map(characterName =>
-    //                 fetch(`https://api.genshin.dev/characters/${characterName}`)
-    //                     .then(resp => resp.json())
-    //                     .catch(err => console.log('Oh no', err))
-    //             )
-    //         ).then(characterDatatmp => {
-    //             this.setState({ characterData: characterDatatmp });
-    //             // console.log(this.state.characterData)
-    //         });
-    //     }
-    // }
+            const { characters } = this.props;
+            Promise.all(
+                characters.map(characterName =>
+                    fetch(`https://api.genshin.dev/characters/${characterName}`)
+                        .then(resp => resp.json())
+                        .catch(err => console.log('Oh no', err))
+                )
+            ).then(characterDatatmp => {
+                this.setState({ characterData: characterDatatmp });
+                // console.log(this.state.characterData)
+            });
+        }
+    }
 
     render() {
         const { characters } = this.props;
