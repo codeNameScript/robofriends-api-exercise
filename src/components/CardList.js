@@ -10,20 +10,6 @@ class CardList extends Component {
     }
 
     componentDidMount() {
-        // this reorders in resolved speed order
-        // const characterDatatmp = [];
-        // console.log(characters)
-        // characters.forEach(characterName => {
-        //     fetch(`https://api.genshin.dev/characters/${characterName}`)
-        //     .then(resp => resp.json())
-        //     .then(data => {
-        //         characterDatatmp.push(data)
-        //         this.setState({ characterData: characterDatatmp })
-        //         // console.log(this.state.characterData[0]);
-        //         console.log(this.state.characterData);
-        //     })
-        //     .catch(err => console.log('Oh no', err))
-        // });
         /*
         Promise.all
         https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
@@ -68,7 +54,6 @@ class CardList extends Component {
         console.log(this.props)
         return (
             <div>
-                {/* this is an array of Cards component? right? */}
                 {
                     this.state.characterData.map((character, i) => {
                         if (characters.includes(characters[i])) {
@@ -92,32 +77,5 @@ class CardList extends Component {
         );
     }
 }
-
-// const CardList = ({ characters }) => {
-//     return (
-//         <div>
-//             {
-//                 characters.map((characterName, i) => {
-//                     fetch(`https://api.genshin.dev/characters/${characterName}`)
-//                     .then(resp => resp.json())
-//                     .then(data => {
-//                         return (
-//                             <Card
-//                             key={i}
-//                             id={data.name}
-//                             name={data.name}
-//                             nation={data.nation}
-//                             vision={data.vision}
-//                             weapon={data.weapon}
-//                             // this API does not store images in the object. We have to get them seperately
-//                             imagesrc={`https://api.genshin.dev/characters/${characterName}/card`}
-//                             />
-//                         );
-//                     })
-//                 })
-//             }
-//         </div>
-//     );
-// }
 
 export default CardList;

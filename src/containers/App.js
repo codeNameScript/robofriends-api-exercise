@@ -32,10 +32,10 @@ class App extends Component {
     const { characters, searchfield } = this.state;
     // character.name will not fix it because that is not how the api is structured
     // I think I have to fetch like in the CardList if I really want to search by full name
-    const filteredRobots = characters.filter(robot => {
-      return robot.toLowerCase().includes(searchfield.toLowerCase());
+    const filteredCharacters = characters.filter(character => {
+      return character.toLowerCase().includes(searchfield.toLowerCase());
     })
-    console.log(filteredRobots);
+    console.log(filteredCharacters);
     return !characters.length ?
     <h1>Loading</h1> :
     (
@@ -44,7 +44,7 @@ class App extends Component {
         <SearchBox searchChange={this.onSearchChange}/>
         <Scroll>
           <ErrorBoundry>
-            <CardList characters={filteredRobots}/>
+            <CardList characters={filteredCharacters}/>
           </ErrorBoundry>
         </Scroll>
       </div>
