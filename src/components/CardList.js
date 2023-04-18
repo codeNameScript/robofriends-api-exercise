@@ -34,7 +34,6 @@ class CardList extends Component {
             ).then(characterDatatmp => {
                 this.setState({ characterData: characterDatatmp });
             })
-
         }
     }
 
