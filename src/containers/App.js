@@ -27,14 +27,14 @@ class App extends Component {
                 .catch(err => console.log('Oh no', err))
         )
         ).then(characterDatatmp => {
-        console.log(characterDatatmp);
+        // console.log(characterDatatmp);
         // make an array of full names
         const characterFullNamesArray = characterDatatmp.map((value) => {
           return value.name;
         })
           this.setState({ charactersFullNames: characterFullNamesArray });
-          console.log(this.state.characters)
-          console.log(this.state.charactersFullNames)
+          // console.log(this.state.characters)
+          // console.log(this.state.charactersFullNames)
       });
     })
   }

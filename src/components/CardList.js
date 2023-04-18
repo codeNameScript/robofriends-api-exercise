@@ -36,7 +36,11 @@ class CardList extends Component {
     // probably because I fixed the filter in App.js
     componentDidUpdate(prevProps) {
         if (prevProps.characters !== this.props.characters) {
-            this.setState({ characterData: [] });
+
+            // this part is probably causing the flickering
+            // this.setState({ characterData: [] });
+
+            // console.log('before', this.state.characterData);
 
             const { characters } = this.props;
             Promise.all(
@@ -48,13 +52,16 @@ class CardList extends Component {
             ).then(characterDatatmp => {
                 this.setState({ characterData: characterDatatmp });
                 // console.log(this.state.characterData)
-            });
+                // console.log('after', this.state.characterData);
+            })
+            
         }
     }
-
+    
     render() {
         const { characters } = this.props;
         // console.log(this.props)
+        // console.log('render', this.state.characterData);
         return (
             <div>
                 {
