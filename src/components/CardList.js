@@ -27,7 +27,7 @@ class CardList extends Component {
             )
         ).then(characterDatatmp => {
             this.setState({ characterData: characterDatatmp });
-            console.log(this.state.characterData)
+            // console.log(this.state.characterData)
         });
     }
 
@@ -44,14 +44,14 @@ class CardList extends Component {
                 )
             ).then(characterDatatmp => {
                 this.setState({ characterData: characterDatatmp });
-                console.log(this.state.characterData)
+                // console.log(this.state.characterData)
             });
         }
     }
 
     render() {
         const { characters } = this.props;
-        console.log(this.props)
+        // console.log(this.props)
         return (
             <div>
                 {

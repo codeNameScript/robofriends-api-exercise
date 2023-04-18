@@ -10,6 +10,7 @@ class App extends Component {
     super()
     this.state = {
       characters: [],
+      charactersFullNames: [],
       searchfield: ''
     }
   }
@@ -17,7 +18,25 @@ class App extends Component {
   componentDidMount() {
     fetch('https://api.genshin.dev/characters')
     .then(response => response.json())
-    .then(characterNamesArray => this.setState({ characters: characterNamesArray }));
+    .then(characterNamesArray => { 
+      this.setState({ characters: characterNamesArray })
+      Promise.all(
+        characterNamesArray.map(characterName =>
+            fetch(`https://api.genshin.dev/characters/${characterName}`)
+                .then(resp => resp.json())
+                .catch(err => console.log('Oh no', err))
+        )
+        ).then(characterDatatmp => {
+        console.log(characterDatatmp);
+        // make an array of full names
+        const characterFullNamesArray = characterDatatmp.map((value) => {
+          return value.name;
+        })
+          this.setState({ charactersFullNames: characterFullNamesArray });
+          console.log(this.state.characters)
+          console.log(this.state.charactersFullNames)
+      });
+    })
   }
 
   // the name of characters in the initial array is differnet from the data I am showing 
@@ -27,15 +46,34 @@ class App extends Component {
   onSearchChange = (event) => {
     this.setState({ searchfield: event.target.value });
   }
+
+  // https://api.genshin.dev/characters    returns ['ayaka', 'otherCharNames']
+  // https://api.genshin.dev/characters/ayaka      [{name: 'Kamisato Ayaka', other: 'data'}]
   
   render() {
-    const { characters, searchfield } = this.state;
+    const { characters, charactersFullNames, searchfield } = this.state;
+    // console.log(characters);
     // character.name will not fix it because that is not how the api is structured
     // I think I have to fetch like in the CardList if I really want to search by full name
-    const filteredCharacters = characters.filter(character => {
-      return character.toLowerCase().includes(searchfield.toLowerCase());
+
+    // if i filter withd the full names array the cardlist will break
+    
+    // console.log(charactersFullNames);
+    // const filteredCharacters = [];
+    // console.log(String(charactersFullNames[0]).toLowerCase());
+    // characters.forEach((character, i) => {
+    //   if (String(charactersFullNames[i]).toLowerCase().includes(searchfield.toLowerCase())) {
+    //     const filteredCharacters = filteredCharacters.push(character);
+    //   }
+    // })
+
+    const filteredCharacters = characters.filter((character, i) => {
+      // return character.toLowerCase().includes(searchfield.toLowerCase());
+      if (String(charactersFullNames[i]).toLowerCase().includes(searchfield.toLowerCase())) {
+        return character;
+      }
     })
-    console.log(filteredCharacters);
+    // console.log(filteredCharacters);
     return !characters.length ?
     <h1>Loading</h1> :
     (
