@@ -10,16 +10,8 @@ class CardList extends Component {
     }
 
     componentDidMount() {
-        /*
-        Promise.all
-        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
-            The fulfillment value is an array of fullfilement values,
-            in the order of the promises passed,
-            REGARDLESS of the completion order
-        */
-       // this has to be named the same as the prop you passed in App.js
-       const { characters } = this.props;
-       Promise.all(
+        const { characters } = this.props;
+        Promise.all(
             characters.map(characterName =>
                 fetch(`https://api.genshin.dev/characters/${characterName}`)
                     .then(resp => resp.json())
@@ -27,14 +19,11 @@ class CardList extends Component {
             )
         ).then(characterDatatmp => {
             this.setState({ characterData: characterDatatmp });
-            console.log(this.state.characterData)
         });
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.characters !== this.props.characters) {
-            this.setState({ characterData: [] });
-
             const { characters } = this.props;
             Promise.all(
                 characters.map(characterName =>
@@ -44,14 +33,12 @@ class CardList extends Component {
                 )
             ).then(characterDatatmp => {
                 this.setState({ characterData: characterDatatmp });
-                console.log(this.state.characterData)
-            });
+            })
         }
     }
 
     render() {
         const { characters } = this.props;
-        console.log(this.props)
         return (
             <div>
                 {

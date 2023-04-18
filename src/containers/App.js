@@ -10,6 +10,7 @@ class App extends Component {
     super()
     this.state = {
       characters: [],
+      charactersFullNames: [],
       searchfield: ''
     }
   }
@@ -17,38 +18,52 @@ class App extends Component {
   componentDidMount() {
     fetch('https://api.genshin.dev/characters')
     .then(response => response.json())
-    .then(characterNamesArray => this.setState({ characters: characterNamesArray }));
+    .then(characterNamesArray => {
+      this.setState({ characters: characterNamesArray })
+      Promise.all(
+        characterNamesArray.map(characterName =>
+          fetch(`https://api.genshin.dev/characters/${characterName}`)
+            .then(resp => resp.json())
+            .catch(err => console.log('Oh no', err))
+        )
+      ).then(characterDatatmp => {
+        const characterFullNamesArray = characterDatatmp.map((value) => {
+          return value.name;
+        })
+        this.setState({ charactersFullNames: characterFullNamesArray });
+      });
+    })
   }
 
-  // the name of characters in the initial array is differnet from the data I am showing 
-  // e.g. in initial array ['ayaka']    [{name: 'Kamisato Ayaka'}]
-  // searching kamisato will filter out ayaka even though that is her full name
-  // I have to think of different logic for filtering to fix this.
   onSearchChange = (event) => {
     this.setState({ searchfield: event.target.value });
   }
-  
+
   render() {
-    const { characters, searchfield } = this.state;
-    // character.name will not fix it because that is not how the api is structured
-    // I think I have to fetch like in the CardList if I really want to search by full name
-    const filteredCharacters = characters.filter(character => {
-      return character.toLowerCase().includes(searchfield.toLowerCase());
+    const { characters, charactersFullNames, searchfield } = this.state;
+
+    const filteredCharacters = characters.filter((character, i) => {
+      // You have to parse to string when its from an array dummy
+      if (String(charactersFullNames[i]).toLowerCase().includes(searchfield.toLowerCase())) {
+        return character;
+      }
     })
-    console.log(filteredCharacters);
+
     return !characters.length ?
-    <h1>Loading</h1> :
-    (
-      <div className='tc'>
-        <h1 className='f1'>RoboFriends</h1>
-        <SearchBox searchChange={this.onSearchChange}/>
-        <Scroll>
-          <ErrorBoundry>
-            <CardList characters={filteredCharacters}/>
-          </ErrorBoundry>
-        </Scroll>
-      </div>
-    );
+      <h1>Loading</h1> :
+      (
+        <div className='tc'>
+          <div className='Appjs-flex'>
+            <h1 className='f1'>Genshin Friends</h1>
+            <SearchBox searchChange={this.onSearchChange} />
+          </div>
+          <Scroll>
+            <ErrorBoundry>
+              <CardList characters={filteredCharacters} />
+            </ErrorBoundry>
+          </Scroll>
+        </div>
+      );
   }
 }
 
