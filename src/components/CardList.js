@@ -10,14 +10,6 @@ class CardList extends Component {
     }
 
     componentDidMount() {
-        /*
-        Promise.all
-        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
-            The fulfillment value is an array of fullfilement values,
-            in the order of the promises passed,
-            REGARDLESS of the completion order
-        */
-        // this has to be named the same as the prop you passed in App.js
         const { characters } = this.props;
         Promise.all(
             characters.map(characterName =>
@@ -27,21 +19,11 @@ class CardList extends Component {
             )
         ).then(characterDatatmp => {
             this.setState({ characterData: characterDatatmp });
-            // console.log(this.state.characterData)
         });
     }
 
-    // We need this the last commit was a mistake
-    // the flickering has something to do with this part
-    // probably because I fixed the filter in App.js
     componentDidUpdate(prevProps) {
         if (prevProps.characters !== this.props.characters) {
-
-            // this part is probably causing the flickering
-            // this.setState({ characterData: [] });
-
-            // console.log('before', this.state.characterData);
-
             const { characters } = this.props;
             Promise.all(
                 characters.map(characterName =>
@@ -51,17 +33,13 @@ class CardList extends Component {
                 )
             ).then(characterDatatmp => {
                 this.setState({ characterData: characterDatatmp });
-                // console.log(this.state.characterData)
-                // console.log('after', this.state.characterData);
             })
-            
+
         }
     }
-    
+
     render() {
         const { characters } = this.props;
-        // console.log(this.props)
-        // console.log('render', this.state.characterData);
         return (
             <div>
                 {
